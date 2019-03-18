@@ -9,19 +9,40 @@ app.get('/', (req, res) => {
     res.send('GraphQL learning!');
 });
 
-const root = { friend: () => {
-    return {
-        "id": "01633",
-        "firstName": "John Gerwin",
-        "lastName": "De las Alas",
-        "gender": "Male",
-        "language": "Tagalog",
-        "emails": [
-            {"email": "gerwin@intelean.com"},
-            {"email": "gerwin2@intelean.com"},
-        ],
+class Friend
+{
+    constructor(id, {firstName, lastName, gender, language, email}) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.language = language;
+        this.email = email;
     }
-} };
+}
+
+const friendDatabase = {};
+
+const root = {
+    friend: () => {
+        return {
+            "id": "01633",
+            "firstName": "John Gerwin",
+            "lastName": "De las Alas",
+            "gender": "Male",
+            "language": "Tagalog",
+            "emails": [
+                {"email": "gerwin@intelean.com"},
+                {"email": "gerwin2@intelean.com"},
+            ],
+        }
+    },
+    createFriend: ({input}) => {
+        let id = require('crypto').randomBytes(10).toString('hex');
+        friendDatabase[id] = input;
+        return new Friend(id, input);
+    }
+};
 
 app.use('/graphql', graphqlHTTP({
     schema: schema,
@@ -29,4 +50,4 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true,
 }));
 
-app.listen(8081, () => console.log('Running server on localhost:8080'));
+app.listen(8080, () => console.log('Running server on localhost:8080'));
