@@ -16,7 +16,10 @@ const root = { friend: () => {
         "lastName": "De las Alas",
         "gender": "Male",
         "language": "Tagalog",
-        "email": "gerwin@intelean.com",
+        "emails": [
+            {"email": "gerwin@intelean.com"},
+            {"email": "gerwin2@intelean.com"},
+        ],
     }
 } };
 
@@ -26,4 +29,4 @@ app.use('/graphql', graphqlHTTP({
     graphiql: true,
 }));
 
-app.listen(8080, () => console.log('Running server on localhost:8080'));
+app.listen(8081, () => console.log('Running server on localhost:8080'));
